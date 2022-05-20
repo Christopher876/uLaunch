@@ -87,6 +87,7 @@
     "set_wifi_name": "Connected WiFi network",
     "set_console_lang": "Console language",
     "set_console_info_upload": "Console information upload enabled",
+    "set_auto_nro_launch": "Auto-Launcher NRO as application",
     "set_auto_titles_dl": "Automatic titles' download enabled",
     "set_auto_update": "Console auto-update enabled",
     "set_wireless_lan": "Wireless LAN enabled",

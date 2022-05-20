@@ -811,8 +811,18 @@ namespace ui {
 
     void MenuLayout::HandleHomebrewLaunch(const cfg::TitleRecord &rec) {
         u64 title_takeover_id;
+        bool title_auto_launch;
+        int option;
+
+        UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, title_auto_launch));
         UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::HomebrewApplicationTakeoverApplicationId, title_takeover_id));
-        const auto option = g_MenuApplication->CreateShowDialog(GetLanguageString("hb_launch"), GetLanguageString("hb_launch_conf"), { GetLanguageString("hb_applet"), GetLanguageString("hb_app"), GetLanguageString("cancel") }, true);
+
+        if(!title_auto_launch){
+            option = g_MenuApplication->CreateShowDialog(GetLanguageString("hb_launch"), GetLanguageString("hb_launch_conf"), { GetLanguageString("hb_applet"), GetLanguageString("hb_app"), GetLanguageString("cancel") }, true);
+        } else {
+            option = 1;
+        }
+        
         if(option == 0) {
             pu::audio::PlaySfx(this->title_launch_sfx);
             

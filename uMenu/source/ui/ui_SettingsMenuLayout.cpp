@@ -124,6 +124,10 @@ namespace ui {
         auto nfc = false;
         setsysGetNfcEnableFlag(&nfc);
         this->PushSettingItem(GetLanguageString("set_nfc"), EncodeForSettings(nfc), 10);
+
+        bool auto_nro_launch;
+        UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, auto_nro_launch));
+        this->PushSettingItem(GetLanguageString("set_auto_nro_launch"), EncodeForSettings(auto_nro_launch), 11);
         
         SetSysSerialNumber serial = {};
         setsysGetSerialNumber(&serial);
@@ -265,6 +269,14 @@ namespace ui {
                 setsysGetNfcEnableFlag(&nfc);
                 setsysSetNfcEnableFlag(!nfc);
 
+                reload_need = true;
+                break;
+            }
+            case 11: {
+                bool auto_nro_launch;
+                UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, auto_nro_launch));
+                auto_nro_launch = !auto_nro_launch;
+                UL_ASSERT_TRUE(g_Config.SetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, auto_nro_launch));
                 reload_need = true;
                 break;
             }
