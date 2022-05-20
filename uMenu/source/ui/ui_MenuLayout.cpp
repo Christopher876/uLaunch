@@ -390,14 +390,21 @@ namespace ui {
                         }
                         else if(keys_down & HidNpadButton_X) {
                             if(g_MenuApplication->IsSuspended()) {
-                                if(title.title_type == cfg::TitleType::Homebrew) {
-                                    if(g_MenuApplication->EqualsSuspendedHomebrewPath(title.nro_target.nro_path)) {
-                                        this->HandleCloseSuspended();
+                                bool close_suspend_anywhere;
+                                UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::CloseSuspendedTitleOnAnyTitle, close_suspend_anywhere));
+
+                                if(close_suspend_anywhere)
+                                    this->HandleCloseSuspended();
+                                else{
+                                    if(title.title_type == cfg::TitleType::Homebrew) {
+                                        if(g_MenuApplication->EqualsSuspendedHomebrewPath(title.nro_target.nro_path)) {
+                                            this->HandleCloseSuspended();
+                                        }
                                     }
-                                }
-                                else {
-                                    if(title.app_id == g_MenuApplication->GetSuspendedApplicationId()) {
-                                        this->HandleCloseSuspended();
+                                    else {
+                                        if(title.app_id == g_MenuApplication->GetSuspendedApplicationId()) {
+                                            this->HandleCloseSuspended();
+                                        }
                                     }
                                 }
                             }

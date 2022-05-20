@@ -88,9 +88,10 @@ namespace cfg {
         MenuTakeoverProgramId,
         HomebrewAppletTakeoverProgramId,
         HomebrewApplicationTakeoverApplicationId,
+        HomebrewApplicationAutoLaunch,
         ViewerUsbEnabled,
         ActiveThemeName,
-        HomebrewApplicationAutoLaunch
+        CloseSuspendedTitleOnAnyTitle
     };
 
     enum class ConfigEntryType : u8 {
@@ -220,6 +221,7 @@ namespace cfg {
                     }
                 }
                 case ConfigEntryId::ViewerUsbEnabled:
+                case ConfigEntryId::CloseSuspendedTitleOnAnyTitle:
                 case ConfigEntryId::HomebrewApplicationAutoLaunch: {
                     if constexpr(std::is_same_v<T, bool>) {
                         new_entry.header.type = ConfigEntryType::Bool;
@@ -287,17 +289,9 @@ namespace cfg {
                         return false;
                     }
                 }
+                case ConfigEntryId::CloseSuspendedTitleOnAnyTitle:
+                case ConfigEntryId::HomebrewApplicationAutoLaunch:
                 case ConfigEntryId::ViewerUsbEnabled: {
-                    if constexpr(std::is_same_v<T, bool>) {
-                        // Disabled by default, it might interfer with other homebrews
-                        out_t = false;
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                case ConfigEntryId::HomebrewApplicationAutoLaunch: {
                     if constexpr(std::is_same_v<T, bool>) {
                         // Disabled by default, it might interfer with other homebrews
                         out_t = false;

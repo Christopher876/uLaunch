@@ -128,6 +128,10 @@ namespace ui {
         bool auto_nro_launch;
         UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, auto_nro_launch));
         this->PushSettingItem(GetLanguageString("set_auto_nro_launch"), EncodeForSettings(auto_nro_launch), 11);
+
+        bool close_suspend_anywhere;
+        UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::CloseSuspendedTitleOnAnyTitle, close_suspend_anywhere));
+        this->PushSettingItem(GetLanguageString("set_close_suspended_title_anywhere"), EncodeForSettings(close_suspend_anywhere), 12);
         
         SetSysSerialNumber serial = {};
         setsysGetSerialNumber(&serial);
@@ -277,6 +281,14 @@ namespace ui {
                 UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, auto_nro_launch));
                 auto_nro_launch = !auto_nro_launch;
                 UL_ASSERT_TRUE(g_Config.SetEntry(cfg::ConfigEntryId::HomebrewApplicationAutoLaunch, auto_nro_launch));
+                reload_need = true;
+                break;
+            }
+            case 12: {
+                bool close_suspended_anywhere;
+                UL_ASSERT_TRUE(g_Config.GetEntry(cfg::ConfigEntryId::CloseSuspendedTitleOnAnyTitle, close_suspended_anywhere));
+                close_suspended_anywhere = !close_suspended_anywhere;
+                UL_ASSERT_TRUE(g_Config.SetEntry(cfg::ConfigEntryId::CloseSuspendedTitleOnAnyTitle, close_suspended_anywhere));
                 reload_need = true;
                 break;
             }
